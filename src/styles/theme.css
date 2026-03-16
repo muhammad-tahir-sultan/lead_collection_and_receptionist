@@ -1,0 +1,32 @@
+/**
+ * Light Sage Green & Cream Yellow — Product color scheme
+ * Source: color-hex.com palette
+ */
+:root {
+  /* Sage greens */
+  --color-sage: #99a98f;
+  --color-sage-light: #c1d0b5;
+  --color-sage-pale: #dce3c7;
+  --color-sage-mint: #dbead2;
+  --color-cream: #fff8de;
+
+  /* Semantic usage */
+  --bg-page: var(--color-cream);
+  --bg-card: #fff;
+  --bg-sidebar: var(--color-sage-pale);
+  --bg-nav-hover: var(--color-sage-mint);
+  --bg-primary: var(--color-sage);
+  --bg-primary-hover: #8a9980;
+
+  --text-primary: #2c3329;
+  --text-secondary: #4a5347;
+  --text-muted: #6b7568;
+
+  --border: var(--color-sage-light);
+  --border-focus: var(--color-sage);
+
+  --shadow-sm: 0 1px 3px rgba(44, 51, 41, 0.08);
+  --shadow-md: 0 4px 12px rgba(44, 51, 41, 0.1);
+  --radius: 8px;
+  --radius-lg: 12px;
+}
