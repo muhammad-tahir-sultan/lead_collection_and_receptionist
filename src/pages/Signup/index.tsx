@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext'
+import { PasswordInput } from '@/components/PasswordInput'
 import type { ApiError } from '@/api/client'
 import styles from '@/styles/Auth.module.css'
 
@@ -79,34 +80,20 @@ export function Signup() {
               <span className={styles.fieldError}>{errors.email.message}</span>
             )}
           </div>
-          <div className={styles.field}>
-            <label htmlFor="signup-password">Password</label>
-            <input
-              id="signup-password"
-              type="password"
-              autoComplete="new-password"
-              {...register('password')}
-              className={errors.password ? styles.inputError : undefined}
-            />
-            {errors.password && (
-              <span className={styles.fieldError}>{errors.password.message}</span>
-            )}
-          </div>
-          <div className={styles.field}>
-            <label htmlFor="signup-confirm">Confirm password</label>
-            <input
-              id="signup-confirm"
-              type="password"
-              autoComplete="new-password"
-              {...register('confirmPassword')}
-              className={errors.confirmPassword ? styles.inputError : undefined}
-            />
-            {errors.confirmPassword && (
-              <span className={styles.fieldError}>
-                {errors.confirmPassword.message}
-              </span>
-            )}
-          </div>
+          <PasswordInput
+            id="signup-password"
+            label="Password"
+            autoComplete="new-password"
+            error={errors.password?.message}
+            {...register('password')}
+          />
+          <PasswordInput
+            id="signup-confirm"
+            label="Confirm password"
+            autoComplete="new-password"
+            error={errors.confirmPassword?.message}
+            {...register('confirmPassword')}
+          />
           <button type="submit" className={styles.button} disabled={isSubmitting}>
             {isSubmitting ? 'Creating account…' : 'Sign up'}
           </button>

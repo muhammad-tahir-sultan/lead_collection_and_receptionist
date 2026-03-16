@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext'
+import { PasswordInput } from '@/components/PasswordInput'
 import type { ApiError } from '@/api/client'
 import styles from '@/styles/Auth.module.css'
 
@@ -59,19 +60,13 @@ export function Login() {
               <span className={styles.fieldError}>{errors.email.message}</span>
             )}
           </div>
-          <div className={styles.field}>
-            <label htmlFor="login-password">Password</label>
-            <input
-              id="login-password"
-              type="password"
-              autoComplete="current-password"
-              {...register('password')}
-              className={errors.password ? styles.inputError : undefined}
-            />
-            {errors.password && (
-              <span className={styles.fieldError}>{errors.password.message}</span>
-            )}
-          </div>
+          <PasswordInput
+            id="login-password"
+            label="Password"
+            autoComplete="current-password"
+            error={errors.password?.message}
+            {...register('password')}
+          />
           <button type="submit" className={styles.button} disabled={isSubmitting}>
             {isSubmitting ? 'Signing in…' : 'Sign in'}
           </button>
