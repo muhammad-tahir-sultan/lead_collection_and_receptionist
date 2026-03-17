@@ -27,6 +27,14 @@
 
   --shadow-sm: 0 1px 3px rgba(44, 51, 41, 0.08);
   --shadow-md: 0 4px 12px rgba(44, 51, 41, 0.1);
+  --shadow-lg: 0 12px 40px rgba(44, 51, 41, 0.12);
+  --shadow-card: 0 2px 8px rgba(44, 51, 41, 0.06), 0 8px 24px rgba(44, 51, 41, 0.08);
   --radius: 8px;
   --radius-lg: 12px;
+  --radius-xl: 16px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --transition-fast: 0.2s var(--ease-out);
+  --transition-normal: 0.35s var(--ease-out);
+  --transition-slow: 0.5s var(--ease-out);
 }

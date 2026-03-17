@@ -16,6 +16,7 @@ const Receptionist = lazy(() =>
 const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m.Settings })))
 const Login = lazy(() => import('@/pages/Login').then((m) => ({ default: m.Login })))
 const Signup = lazy(() => import('@/pages/Signup').then((m) => ({ default: m.Signup })))
+const Landing = lazy(() => import('@/pages/Landing').then((m) => ({ default: m.Landing })))
 
 function PageFallback() {
   return <div style={{ padding: '2rem', color: 'var(--text-muted)' }}>Loading…</div>
@@ -44,6 +45,14 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
+    element: (
+      <Suspense fallback={<PageFallback />}>
+        <Landing />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/dashboard',
     element: (
       <ProtectedRoute>
         <DashboardLayout />

@@ -3,8 +3,10 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { Link, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
 import { PasswordInput } from '@/components/PasswordInput'
+import { fadeInUp, staggerContainer } from '@/lib/motion'
 import type { ApiError } from '@/api/client'
 import styles from '@/styles/Auth.module.css'
 
@@ -33,17 +35,27 @@ export function Login() {
     setError(null)
     try {
       await login(data.email, data.password)
-      navigate('/', { replace: true })
+      navigate('/dashboard', { replace: true })
     } catch (e) {
       setError((e as ApiError).message ?? 'Login failed')
     }
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.card}>
-        <h1 className={styles.title}>Sign in</h1>
-        <p className={styles.subtitle}>Use your account to access the dashboard.</p>
+    <motion.div
+      className={styles.wrapper}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <motion.div
+        className={styles.card}
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+      >
+        <motion.h1 className={styles.title} variants={fadeInUp}>Sign in</motion.h1>
+        <motion.p className={styles.subtitle} variants={fadeInUp}>Use your account to access the dashboard.</motion.p>
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           {error && <div className={styles.error} role="alert">{error}</div>}
@@ -72,10 +84,10 @@ export function Login() {
           </button>
         </form>
 
-        <p className={styles.footer}>
+        <motion.p className={styles.footer} variants={fadeInUp}>
           Don’t have an account? <Link to="/signup">Sign up</Link>
-        </p>
-      </div>
-    </div>
+        </motion.p>
+      </motion.div>
+    </motion.div>
   )
 }

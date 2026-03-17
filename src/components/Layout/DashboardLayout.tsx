@@ -4,12 +4,12 @@ import { useAuth } from '@/contexts/AuthContext'
 import styles from './DashboardLayout.module.css'
 
 const NAV_ITEMS = [
-  { to: '/', label: 'Dashboard' },
-  { to: '/analytics', label: 'Analytics' },
-  { to: '/leads', label: 'Leads' },
-  { to: '/knowledge-base', label: 'Knowledge base' },
-  { to: '/receptionist', label: 'AI Receptionist' },
-  { to: '/settings', label: 'Settings' },
+  { to: '/dashboard', label: 'Dashboard' },
+  { to: '/dashboard/analytics', label: 'Analytics' },
+  { to: '/dashboard/leads', label: 'Leads' },
+  { to: '/dashboard/knowledge-base', label: 'Knowledge base' },
+  { to: '/dashboard/receptionist', label: 'AI Receptionist' },
+  { to: '/dashboard/settings', label: 'Settings' },
 ] as const
 
 export function DashboardLayout() {

@@ -28,8 +28,8 @@ export function Dashboard() {
       <section className={styles.section}>
         <h2>Quick actions</h2>
         <div className={styles.actions}>
-          <Link to="/knowledge-base" className={styles.button}>Upload knowledge base</Link>
-          <Link to="/leads" className={styles.buttonSecondary}>View leads</Link>
+          <Link to="/dashboard/knowledge-base" className={styles.button}>Upload knowledge base</Link>
+          <Link to="/dashboard/leads" className={styles.buttonSecondary}>View leads</Link>
         </div>
       </section>
     </div>

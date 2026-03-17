@@ -16,7 +16,7 @@ export function GuestOnlyRoute({ children }: Props) {
   }
 
   if (state.status === 'authenticated') {
-    return <Navigate to="/" replace />
+    return <Navigate to="/dashboard" replace />
   }
 
   return <>{children}</>
