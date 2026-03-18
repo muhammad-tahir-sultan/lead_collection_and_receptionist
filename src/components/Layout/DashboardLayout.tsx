@@ -1,6 +1,7 @@
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/contexts/AuthContext'
+import { PageSkeleton } from '@/components/ui/LoadingSkeleton'
 import styles from './DashboardLayout.module.css'
 
 const NAV_ITEMS = [
@@ -16,10 +17,25 @@ export function DashboardLayout() {
   const location = useLocation()
   const navigate = useNavigate()
   const { user, logout } = useAuth()
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  const closeSidebar = () => setSidebarOpen(false)
 
   return (
     <div className={styles.wrapper}>
-      <aside className={styles.sidebar}>
+      <button
+        type="button"
+        className={styles.hamburger}
+        onClick={() => setSidebarOpen((o) => !o)}
+        aria-label={sidebarOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={sidebarOpen}
+      >
+        <span className={styles.hamburgerLine} />
+        <span className={styles.hamburgerLine} />
+        <span className={styles.hamburgerLine} />
+      </button>
+      {sidebarOpen && <div className={styles.overlay} onClick={closeSidebar} aria-hidden />}
+      <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
         <div className={styles.brand}>
           <span className={styles.brandIcon}>◇</span>
           <span>Receptionist</span>
@@ -30,6 +46,7 @@ export function DashboardLayout() {
               key={to}
               to={to}
               className={location.pathname === to ? styles.navLinkActive : styles.navLink}
+              onClick={closeSidebar}
             >
               {label}
             </Link>
@@ -52,7 +69,7 @@ export function DashboardLayout() {
         </div>
       </aside>
       <main className={styles.main}>
-        <Suspense fallback={<div className={styles.loading}>Loading…</div>}>
+        <Suspense fallback={<PageSkeleton />}>
           <Outlet />
         </Suspense>
       </main>

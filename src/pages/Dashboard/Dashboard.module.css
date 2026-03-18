@@ -2,11 +2,6 @@
   max-width: 900px;
 }
 
-.subtitle {
-  color: var(--text-muted);
-  margin-bottom: 1.5rem;
-}
-
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -14,23 +9,9 @@
   margin-bottom: 2rem;
 }
 
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem;
-  box-shadow: var(--shadow-sm);
-}
-
-.card h3 {
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-}
-
 .stat {
   font-size: 1.75rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 0.25rem;
 }
@@ -41,12 +22,17 @@
   margin: 0;
 }
 
-.section {
-  margin-top: 2rem;
+.timestamp {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0.5rem 0 0;
 }
 
-.section h2 {
-  margin-bottom: 1rem;
+.sectionHeading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
 }
 
 .actions {
@@ -55,37 +41,48 @@
   flex-wrap: wrap;
 }
 
-.button,
-.buttonSecondary {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.6rem 1.25rem;
-  border-radius: var(--radius);
-  font-weight: 500;
-  font-size: 0.95rem;
-  text-decoration: none;
-  transition: background 0.15s, color 0.15s;
-}
-
-.button {
-  background: var(--bg-primary);
-  color: #fff;
-}
-
-.button:hover {
-  background: var(--bg-primary-hover);
-  color: #fff;
+.actions a {
   text-decoration: none;
 }
 
-.buttonSecondary {
+.recentList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   background: var(--bg-card);
-  color: var(--text-primary);
   border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
-.buttonSecondary:hover {
-  background: var(--color-sage-pale);
-  text-decoration: none;
+.recentItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.recentItem:last-child {
+  border-bottom: none;
+}
+
+.recentText {
+  font-size: 0.95rem;
   color: var(--text-primary);
+}
+
+.recentTime {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .recentItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
 }

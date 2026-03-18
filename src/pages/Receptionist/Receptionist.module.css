@@ -1,0 +1,157 @@
+.page {
+  max-width: 640px;
+}
+
+.card {
+  margin-bottom: 1.25rem;
+}
+
+.toggleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.toggleLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem;
+}
+
+.toggleHint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.toggle {
+  width: 48px;
+  height: 28px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--color-sage-pale);
+  cursor: pointer;
+  padding: 2px;
+  flex-shrink: 0;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.toggleOn {
+  background: var(--color-sage);
+  border-color: var(--color-sage);
+}
+
+.toggleThumb {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+}
+
+.toggleOn .toggleThumb {
+  transform: translateX(20px);
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.labelHint {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  resize: vertical;
+  min-height: 80px;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 2px rgba(153, 169, 143, 0.2);
+}
+
+.sectionLabel {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.checkLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+}
+
+.checkLabel input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-sage);
+}
+
+.timeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.timeInput {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  min-height: 44px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+}
+
+.timeTo {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.placeholder {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.savedHint {
+  font-size: 0.9rem;
+  color: var(--color-sage);
+}

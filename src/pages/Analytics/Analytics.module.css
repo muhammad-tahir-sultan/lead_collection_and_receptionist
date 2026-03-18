@@ -1,0 +1,89 @@
+.page {
+  max-width: 1000px;
+}
+
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.dateRange {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.dateLabel {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-right: 0.25rem;
+}
+
+.rangeBtn,
+.rangeBtnActive {
+  padding: 0.45rem 0.75rem;
+  font-size: 0.9rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.rangeBtn:hover {
+  background: var(--color-sage-pale);
+  color: var(--text-primary);
+}
+
+.rangeBtnActive {
+  background: var(--color-sage-mint);
+  border-color: var(--color-sage-light);
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.summaryCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summaryValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0.25rem 0 0;
+}
+
+.chartTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem;
+}
+
+.chartWrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  min-height: 280px;
+}
+
+@media (max-width: 640px) {
+  .headerRow {
+    flex-direction: column;
+  }
+  .dateRange {
+    width: 100%;
+  }
+  .summaryCards {
+    grid-template-columns: 1fr;
+  }
+}

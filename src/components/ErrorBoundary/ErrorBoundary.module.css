@@ -1,0 +1,48 @@
+.wrapper {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.card {
+  max-width: 400px;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+}
+
+.text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0 0 1.5rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65rem 1.25rem;
+  background: var(--bg-primary);
+  color: #fff;
+  font-weight: 500;
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background var(--transition-fast);
+}
+
+.button:hover {
+  background: var(--bg-primary-hover);
+  color: #fff;
+  text-decoration: none;
+}
