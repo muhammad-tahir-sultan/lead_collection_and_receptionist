@@ -6,6 +6,18 @@
   margin-bottom: 1.25rem;
 }
 
+.error {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--color-sage-pale);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+}
+
 .toggleRow {
   display: flex;
   justify-content: space-between;
