@@ -1,39 +1,120 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
+import * as kbApi from '@/api/knowledge-base'
+import type { KnowledgeDocument } from '@/api/knowledge-base'
 import { PageSection, PageTitle, PageSubtitle } from '@/components/ui/PageSection'
 import { Button } from '@/components/ui/Button'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { PageSkeleton } from '@/components/ui/LoadingSkeleton'
 import styles from './KnowledgeBase.module.css'
 
-// Mock documents
-const MOCK_DOCS = [
-  { id: '1', name: 'Company FAQ.pdf', type: 'PDF', status: 'ready', lastTrained: '1 day ago' },
-  { id: '2', name: 'Product overview.docx', type: 'Doc', status: 'processing', lastTrained: '—' },
-]
-
-type DocStatus = 'ready' | 'processing' | 'failed'
+function formatTrained(iso: string | null): string {
+  if (!iso) return '—'
+  try {
+    const d = new Date(iso)
+    const now = new Date()
+    const diffMs = now.getTime() - d.getTime()
+    const diffDays = Math.floor(diffMs / (24 * 60 * 60 * 1000))
+    if (diffDays === 0) return 'Today'
+    if (diffDays === 1) return '1 day ago'
+    if (diffDays < 7) return `${diffDays} days ago`
+    return d.toLocaleDateString()
+  } catch {
+    return '—'
+  }
+}
 
 export function KnowledgeBase() {
-  const [docs, setDocs] = useState(MOCK_DOCS)
+  const { token } = useAuth()
+  const [docs, setDocs] = useState<KnowledgeDocument[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleFile = (files: FileList | null) => {
-    if (!files?.length) return
-    const file = files[0]
-    setDocs((prev) => [
-      ...prev,
-      {
-        id: String(Date.now()),
-        name: file.name,
-        type: file.name.split('.').pop()?.toUpperCase() ?? 'File',
-        status: 'processing' as DocStatus,
-        lastTrained: '—',
-      },
-    ])
-    if (fileInputRef.current) fileInputRef.current.value = ''
-  }
+  const fetchDocs = useCallback(async () => {
+    if (!token) return
+    setLoading(true)
+    setError(null)
+    try {
+      const { documents } = await kbApi.getKnowledgeDocuments(token)
+      setDocs(documents)
+    } catch (e: unknown) {
+      const err = e as { message?: string }
+      setError(err?.message ?? 'Failed to load documents')
+      setDocs([])
+    } finally {
+      setLoading(false)
+    }
+  }, [token])
+
+  useEffect(() => {
+    fetchDocs()
+  }, [fetchDocs])
+
+  const handleFile = useCallback(
+    async (files: FileList | null) => {
+      if (!files?.length || !token) return
+      const file = files[0]
+      const ext = (file.name.split('.').pop() ?? '').toLowerCase()
+      if (!['pdf', 'doc', 'docx', 'txt'].includes(ext)) {
+        setError('Only PDF, DOC, DOCX, TXT allowed.')
+        return
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        setError('File too large (max 10MB).')
+        return
+      }
+      setUploading(true)
+      setError(null)
+      try {
+        const { document } = await kbApi.uploadKnowledgeDocument(token, file)
+        setDocs((prev) => [document, ...prev])
+      } catch (e: unknown) {
+        const err = e as { message?: string }
+        setError(err?.message ?? 'Upload failed')
+      } finally {
+        setUploading(false)
+      }
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    },
+    [token]
+  )
+
+  const handleDelete = useCallback(
+    async (id: string) => {
+      if (!token) return
+      try {
+        await kbApi.deleteKnowledgeDocument(token, id)
+        setDocs((prev) => prev.filter((d) => d.id !== id))
+      } catch (e: unknown) {
+        const err = e as { message?: string }
+        setError(err?.message ?? 'Delete failed')
+      }
+    },
+    [token]
+  )
+
+  const handleTrain = useCallback(
+    async (id: string) => {
+      if (!token) return
+      try {
+        await kbApi.trainKnowledgeDocument(token, id)
+        await fetchDocs()
+      } catch (e: unknown) {
+        const err = e as { message?: string }
+        setError(err?.message ?? 'Train failed')
+      }
+    },
+    [token, fetchDocs]
+  )
 
   const isEmpty = docs.length === 0
+
+  if (loading) {
+    return <PageSkeleton />
+  }
 
   return (
     <div className={styles.page}>
@@ -46,8 +127,9 @@ export function KnowledgeBase() {
           <Button
             variant="primary"
             onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
           >
-            Add document
+            {uploading ? 'Uploading…' : 'Add document'}
           </Button>
           <input
             ref={fileInputRef}
@@ -59,6 +141,13 @@ export function KnowledgeBase() {
           />
         </div>
       </PageSection>
+
+      {error && (
+        <div className={styles.error} role="alert">
+          {error}
+          <Button variant="secondary" onClick={() => setError(null)}>Dismiss</Button>
+        </div>
+      )}
 
       <div
         className={`${styles.uploadZone} ${dragOver ? styles.uploadZoneActive : ''}`}
@@ -82,7 +171,11 @@ export function KnowledgeBase() {
           title="No documents yet"
           description="Upload PDFs or docs so your AI receptionist can answer questions using your content."
           action={
-            <Button variant="primary" onClick={() => fileInputRef.current?.click()}>
+            <Button
+              variant="primary"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploading}
+            >
               Upload first document
             </Button>
           }
@@ -94,14 +187,33 @@ export function KnowledgeBase() {
             <article key={doc.id} className={styles.docCard}>
               <div className={styles.docInfo}>
                 <span className={styles.docName}>{doc.name}</span>
-                <span className={styles.docMeta}>{doc.type} · {doc.status}</span>
-                <span className={styles.docTrained}>Last trained: {doc.lastTrained}</span>
+                <span className={styles.docMeta}>
+                  {(doc.fileType ?? 'file').toUpperCase()} · {doc.status}
+                </span>
+                <span className={styles.docTrained}>
+                  Last trained: {formatTrained(doc.lastTrainedAt)}
+                </span>
+                {doc.errorMessage && (
+                  <span className={styles.docError}>{doc.errorMessage}</span>
+                )}
               </div>
               <div className={styles.docActions}>
-                {doc.status === 'ready' && (
-                  <Button variant="ghost" className={styles.docBtn}>Retrain</Button>
+                {(doc.status === 'ready' || doc.status === 'failed') && (
+                  <Button
+                    variant="ghost"
+                    className={styles.docBtn}
+                    onClick={() => handleTrain(doc.id)}
+                  >
+                    Retrain
+                  </Button>
                 )}
-                <Button variant="ghost" className={styles.docBtn}>Remove</Button>
+                <Button
+                  variant="ghost"
+                  className={styles.docBtn}
+                  onClick={() => handleDelete(doc.id)}
+                >
+                  Remove
+                </Button>
               </div>
             </article>
           ))}

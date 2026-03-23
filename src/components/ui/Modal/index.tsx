@@ -1,0 +1,38 @@
+import React, { useEffect } from 'react'
+import styles from './Modal.module.css'
+
+interface ModalProps {
+  isOpen: boolean
+  onClose: () => void
+  title: string
+  children: React.ReactNode
+}
+
+export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isOpen])
+
+  if (!isOpen) return null
+
+  return (
+    <div className={styles.overlay} onClick={onClose} role="dialog" aria-modal="true">
+      <div className={styles.content} onClick={(e) => e.stopPropagation()}>
+        <header className={styles.header}>
+          <h3 className={styles.title}>{title}</h3>
+          <button className={styles.closeBtn} onClick={onClose} aria-label="Close modal">
+            &times;
+          </button>
+        </header>
+        <div className={styles.body}>{children}</div>
+      </div>
+    </div>
+  )
+}
