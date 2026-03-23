@@ -40,6 +40,18 @@
   flex-shrink: 0;
 }
 
+.error {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--color-sage-pale);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+}
+
 .tableWrap {
   overflow-x: auto;
   margin-bottom: 1rem;
@@ -144,4 +156,37 @@
   .cardList {
     display: block;
   }
+}
+
+.socialLink {
+  color: #0077b5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.socialLink:hover {
+  text-decoration: underline;
+}
+
+.revealBtn {
+  background: none;
+  border: none;
+  color: var(--color-sage-dark);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.revealBtn:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+.revealBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  text-decoration: none;
 }

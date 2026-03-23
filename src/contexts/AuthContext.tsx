@@ -23,6 +23,7 @@ type AuthContextValue = {
   logout: () => void
   isAuthenticated: boolean
   user: User | null
+  token: string | null
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
@@ -79,6 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     logout,
     isAuthenticated: state.status === 'authenticated',
     user: state.status === 'authenticated' ? state.user : null,
+    token: state.status === 'authenticated' ? state.token : null,
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

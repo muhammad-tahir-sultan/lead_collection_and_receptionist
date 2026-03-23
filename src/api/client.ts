@@ -16,14 +16,22 @@ async function handleResponse<T>(res: Response): Promise<T> {
 
 export async function api<T>(
   path: string,
-  options: RequestInit & { token?: string } = {}
+  options: Omit<RequestInit, 'body'> & { token?: string; body?: any } = {}
 ): Promise<T> {
-  const { token, ...init } = options
+  const { token, body, ...init } = options
   const url = path.startsWith('http') ? path : `${BASE_URL}${path}`
   const headers = new Headers(init.headers)
   if (token) headers.set('Authorization', `Bearer ${token}`)
-  if (!headers.has('Content-Type') && init.body && typeof init.body === 'string')
-    headers.set('Content-Type', 'application/json')
-  const res = await fetch(url, { ...init, headers })
+
+  let fetchBody = body
+  if (body && typeof body === 'object' && !(body instanceof FormData) && !(body instanceof Blob)) {
+    fetchBody = JSON.stringify(body)
+    if (!headers.has('Content-Type')) {
+      headers.set('Content-Type', 'application/json')
+    }
+  }
+
+  const res = await fetch(url, { ...init, headers, body: fetchBody })
   return handleResponse<T>(res)
 }
+
