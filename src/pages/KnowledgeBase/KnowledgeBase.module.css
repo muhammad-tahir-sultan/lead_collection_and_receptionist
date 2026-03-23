@@ -45,6 +45,18 @@
   margin: 0;
 }
 
+.error {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background: var(--color-sage-pale);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+}
+
 .listTitle {
   font-size: 1.05rem;
   font-weight: 600;
@@ -88,6 +100,12 @@
 .docTrained {
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+.docError {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  max-width: 400px;
 }
 
 .docActions {
